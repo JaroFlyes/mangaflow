@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export const dynamic = 'force-dynamic'
-
 export async function GET(
-  request: NextRequest,
+  req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
@@ -12,7 +10,7 @@ export async function GET(
       where: { slug: params.slug },
       include: {
         chapters: {
-          orderBy: { number: 'desc' },
+          orderBy: { number: 'asc' },
           select: {
             id: true,
             number: true,
@@ -30,6 +28,7 @@ export async function GET(
 
     return NextResponse.json(manga)
   } catch (error) {
-    return NextResponse.json({ error: 'Erro ao buscar mangá' }, { status: 500 })
+    console.error('[GET /api/mangas/[slug]]', error)
+    return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
   }
 }
