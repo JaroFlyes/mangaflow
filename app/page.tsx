@@ -1,28 +1,28 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import MangaCard from '@/components/MangaCard'
 
 export default async function HomePage() {
-  const mangas = await prisma.manga.findMany({
-    orderBy: { updatedAt: 'desc' },
-    take: 12,
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      coverUrl: true,
-      status: true,
-    },
-  })
+  let mangas: any[] = []
+
+  try {
+    mangas = await prisma.manga.findMany({
+      orderBy: { updatedAt: 'desc' },
+      take: 12,
+      select: { id: true, title: true, slug: true, coverUrl: true, status: true },
+    })
+  } catch {
+    // banco nao disponivel no build, renderiza vazio
+  }
 
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero */}
         <div className="mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-white">
-            Bem-vindo ao{' '}
-            <span className="text-primary">MangaFlow</span>
+            Bem-vindo ao <span className="text-primary">MangaFlow</span>
           </h1>
           <p className="mt-3 text-muted text-lg">
             Leia seus mangás favoritos com a melhor experiência.
@@ -34,8 +34,6 @@ export default async function HomePage() {
             Ver catálogo →
           </Link>
         </div>
-
-        {/* Recentes */}
         {mangas.length > 0 && (
           <section>
             <h2 className="text-2xl font-bold text-white mb-6">Atualizados recentemente</h2>

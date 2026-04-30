@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const search = searchParams.get('search') || ''
@@ -34,12 +36,7 @@ export async function GET(request: NextRequest) {
       }),
     ])
 
-    return NextResponse.json({
-      mangas,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    })
+    return NextResponse.json({ mangas, total, page, totalPages: Math.ceil(total / limit) })
   } catch (error) {
     return NextResponse.json({ error: 'Erro ao buscar mangás' }, { status: 500 })
   }

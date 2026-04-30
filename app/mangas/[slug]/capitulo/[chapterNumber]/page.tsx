@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ReaderControls from '@/components/ReaderControls'
@@ -51,7 +53,6 @@ export default async function ReaderPage({
 
   return (
     <main className="min-h-screen bg-black">
-      {/* Header do leitor */}
       <div className="sticky top-0 z-50 bg-black/90 border-b border-border px-4 py-3 flex items-center justify-between">
         <a href={`/mangas/${manga.slug}`} className="text-muted hover:text-white text-sm transition">
           ← {manga.title}
@@ -61,8 +62,6 @@ export default async function ReaderPage({
         </span>
         <span className="text-muted text-sm">{chapter.pages.length} páginas</span>
       </div>
-
-      {/* Páginas */}
       <div className="reader-container max-w-3xl mx-auto py-4 px-2">
         {chapter.pages.map((page) => (
           <div key={page.id} className="mb-1">
@@ -77,8 +76,6 @@ export default async function ReaderPage({
           </div>
         ))}
       </div>
-
-      {/* Controles */}
       <ReaderControls
         mangaSlug={manga.slug}
         currentChapter={chapter.number}

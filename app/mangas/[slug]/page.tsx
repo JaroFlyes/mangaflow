@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import ChapterList from '@/components/ChapterList'
@@ -36,7 +38,6 @@ export default async function MangaDetailPage({ params }: { params: { slug: stri
     <main className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="flex flex-col sm:flex-row gap-8">
-          {/* Capa */}
           <div className="w-full sm:w-48 flex-shrink-0">
             <div className="relative aspect-[2/3] w-full sm:w-48 rounded-lg overflow-hidden">
               <Image
@@ -47,8 +48,6 @@ export default async function MangaDetailPage({ params }: { params: { slug: stri
               />
             </div>
           </div>
-
-          {/* Detalhes */}
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-white">{manga.title}</h1>
             <div className="flex flex-wrap gap-2 mt-3">
@@ -67,8 +66,6 @@ export default async function MangaDetailPage({ params }: { params: { slug: stri
             <p className="mt-3 text-muted text-sm">{manga.chapters.length} capítulos</p>
           </div>
         </div>
-
-        {/* Lista de capítulos */}
         <div className="mt-10">
           <h2 className="text-xl font-bold text-white mb-4">Capítulos</h2>
           <ChapterList
