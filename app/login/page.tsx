@@ -18,74 +18,66 @@ export default function LoginPage() {
     setError('')
     const result = await signIn('credentials', { email, password, redirect: false })
     setLoading(false)
-    if (result?.error) {
-      setError('Email ou senha incorretos.')
-    } else {
-      router.push('/')
-      router.refresh()
-    }
+    if (result?.error) setError('Email ou senha incorretos.')
+    else { router.push('/'); router.refresh() }
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      {/* Fundo decorativo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+    <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center px-4">
+      {/* Glow */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#e94560]/10 rounded-full blur-[120px]" />
+      </div>
 
       <div className="relative w-full max-w-sm">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <span className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-black">M</span>
-            <span className="font-bold text-white text-xl">Manga<span className="text-primary">Flow</span></span>
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-[#e94560] flex items-center justify-center shadow-[0_0_20px_rgba(233,69,96,0.4)]">
+              <span className="text-white font-black">M</span>
+            </div>
+            <span className="font-bold text-white text-xl">Manga<span className="text-[#e94560]">Flow</span></span>
           </Link>
-          <p className="text-muted text-sm mt-3">Bem-vindo de volta</p>
+          <p className="text-[#555] text-sm mt-3">Bem-vindo de volta</p>
         </div>
 
-        <div className="bg-[#141414] border border-white/8 rounded-2xl p-7 shadow-2xl">
+        {/* Card */}
+        <div className="bg-[#141414] border border-white/10 rounded-2xl p-7 shadow-2xl">
           {error && (
-            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3 mb-5">
+            <div className="flex items-center gap-2 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 mb-6">
               <span>⚠️</span> {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-medium text-muted mb-1.5 uppercase tracking-wide">Email</label>
+              <label className="block text-xs font-semibold text-[#666] uppercase tracking-wider mb-2">Email</label>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="seu@email.com"
-                className="w-full bg-[#0f0f0f] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition"
+                type="email" value={email} onChange={e => setEmail(e.target.value)}
+                required placeholder="seu@email.com"
+                className="w-full bg-[#0d0d0d] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#e94560]/50 focus:ring-2 focus:ring-[#e94560]/10 transition"
               />
             </div>
-
             <div>
-              <label className="block text-xs font-medium text-muted mb-1.5 uppercase tracking-wide">Senha</label>
+              <label className="block text-xs font-semibold text-[#666] uppercase tracking-wider mb-2">Senha</label>
               <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-                className="w-full bg-[#0f0f0f] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition"
+                type="password" value={password} onChange={e => setPassword(e.target.value)}
+                required placeholder="••••••••"
+                className="w-full bg-[#0d0d0d] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-[#e94560]/50 focus:ring-2 focus:ring-[#e94560]/10 transition"
               />
             </div>
-
             <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-primary/20 mt-2"
+              type="submit" disabled={loading}
+              className="w-full bg-[#e94560] hover:bg-[#c73652] disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-all shadow-[0_4px_24px_rgba(233,69,96,0.3)] hover:shadow-[0_4px_32px_rgba(233,69,96,0.45)] mt-1"
             >
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-muted text-sm mt-5">
+        <p className="text-center text-[#555] text-sm mt-6">
           Não tem conta?{' '}
-          <Link href="/registro" className="text-primary hover:underline font-medium">Cadastre-se grátis</Link>
+          <Link href="/registro" className="text-[#e94560] hover:text-[#ff6b84] font-semibold transition">Cadastre-se grátis</Link>
         </p>
       </div>
     </div>
