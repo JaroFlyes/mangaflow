@@ -8,6 +8,7 @@ const nextConfig = {
       },
     ],
   },
+  // next.config.ts nao e suportado no Next.js 14 - usar .mjs
 }
 
 export default nextConfig
