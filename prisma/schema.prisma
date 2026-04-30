@@ -3,7 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -45,7 +47,7 @@ model Chapter {
   title     String?
   createdAt DateTime @default(now())
 
-  manga          Manga          @relation(fields: [mangaId], references: [id], onDelete: Cascade)
+  manga          Manga           @relation(fields: [mangaId], references: [id], onDelete: Cascade)
   pages          Page[]
   readingHistory ReadingHistory[]
 
@@ -53,7 +55,7 @@ model Chapter {
 }
 
 model Page {
-  id        String  @id @default(cuid())
+  id        String @id @default(cuid())
   chapterId String
   number    Int
   imageUrl  String
