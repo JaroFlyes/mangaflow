@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
@@ -54,6 +56,44 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.error('[GET /api/mangas]', error)
+    return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user?.isAdmin) {
+      return NextResponse.json({ error: 'Não autorizado' }, { status: 403 })
+    }
+
+    const body = await req.json()
+    const { title, slug, synopsis, coverUrl, status, genres } = body
+
+    if (!title || !slug) {
+      return NextResponse.json({ error: 'Título e slug são obrigatórios' }, { status: 400 })
+    }
+
+    const existing = await prisma.manga.findUnique({ where: { slug } })
+    if (existing) {
+      return NextResponse.json({ error: 'Slug já existe' }, { status: 409 })
+    }
+
+    const manga = await prisma.manga.create({
+      data: {
+        title,
+        slug,
+        synopsis: synopsis || null,
+        coverUrl: coverUrl || null,
+        status: status || 'ONGOING',
+        genres: genres || [],
+      },
+    })
+
+    return NextResponse.json(manga, { status: 201 })
+  } catch (error) {
+    console.error('[POST /api/mangas]', error)
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
   }
 }
