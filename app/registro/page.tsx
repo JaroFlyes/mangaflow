@@ -32,7 +32,6 @@ export default function RegistroPage() {
       return
     }
 
-    // Login automático após cadastro
     await signIn('credentials', { email, password, redirect: false })
     router.push('/')
     router.refresh()
@@ -40,67 +39,74 @@ export default function RegistroPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+
+      <div className="relative w-full max-w-sm">
         <div className="text-center mb-8">
-          <Link href="/" className="text-primary font-bold text-2xl">MangaFlow</Link>
-          <p className="text-muted mt-2 text-sm">Crie sua conta grátis</p>
+          <Link href="/" className="inline-flex items-center gap-2">
+            <span className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-black">M</span>
+            <span className="font-bold text-white text-xl">Manga<span className="text-primary">Flow</span></span>
+          </Link>
+          <p className="text-muted text-sm mt-3">Crie sua conta grátis</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-surface border border-border rounded-xl p-6 space-y-4">
+        <div className="bg-[#141414] border border-white/8 rounded-2xl p-7 shadow-2xl">
           {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-3">
-              {error}
+            <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3 mb-5">
+              <span>⚠️</span> {error}
             </div>
           )}
 
-          <div>
-            <label className="block text-sm text-muted mb-1.5">Nome (opcional)</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Seu nome"
-              className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-muted focus:outline-none focus:border-primary transition"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-muted mb-1.5 uppercase tracking-wide">Nome <span className="normal-case">(opcional)</span></label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Seu nome"
+                className="w-full bg-[#0f0f0f] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm text-muted mb-1.5">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="seu@email.com"
-              className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-muted focus:outline-none focus:border-primary transition"
-            />
-          </div>
+            <div>
+              <label className="block text-xs font-medium text-muted mb-1.5 uppercase tracking-wide">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="seu@email.com"
+                className="w-full bg-[#0f0f0f] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition"
+              />
+            </div>
 
-          <div>
-            <label className="block text-sm text-muted mb-1.5">Senha</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              placeholder="Mínimo 6 caracteres"
-              className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-white text-sm placeholder:text-muted focus:outline-none focus:border-primary transition"
-            />
-          </div>
+            <div>
+              <label className="block text-xs font-medium text-muted mb-1.5 uppercase tracking-wide">Senha</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                placeholder="Mínimo 6 caracteres"
+                className="w-full bg-[#0f0f0f] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/20 transition"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-medium py-2.5 rounded-lg transition"
-          >
-            {loading ? 'Criando conta...' : 'Criar conta'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-primary-hover disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-primary/20 mt-2"
+            >
+              {loading ? 'Criando conta...' : 'Criar conta'}
+            </button>
+          </form>
+        </div>
 
-        <p className="text-center text-muted text-sm mt-4">
+        <p className="text-center text-muted text-sm mt-5">
           Já tem conta?{' '}
-          <Link href="/login" className="text-primary hover:underline">Entrar</Link>
+          <Link href="/login" className="text-primary hover:underline font-medium">Entrar</Link>
         </p>
       </div>
     </div>
