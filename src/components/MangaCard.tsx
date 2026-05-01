@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 const STATUS_COLOR: Record<string, string> = {
@@ -33,15 +35,12 @@ export default function MangaCard({ title, slug, coverUrl, status, chapterCount 
           loading="lazy"
           onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-cover.jpg' }}
         />
-        {/* Overlay gradiente */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Badge de status */}
         <span className={`absolute top-2 left-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${STATUS_COLOR[status] ?? 'bg-surface text-muted'}`}>
           {STATUS_LABEL[status] ?? status}
         </span>
 
-        {/* Título no hover */}
         <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
           <p className="text-white text-xs font-semibold leading-tight line-clamp-2">{title}</p>
           {chapterCount !== undefined && (
@@ -50,7 +49,6 @@ export default function MangaCard({ title, slug, coverUrl, status, chapterCount 
         </div>
       </div>
 
-      {/* Título abaixo */}
       <p className="mt-2 text-sm text-muted group-hover:text-white transition-colors duration-200 line-clamp-2 leading-tight">
         {title}
       </p>
