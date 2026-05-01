@@ -9,48 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
+    "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.105.1",
     "lucide-react": "^1.14.0",
-    "next": "14.2.23",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.23",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-=======
-    "@aws-sdk/client-s3": "^3.0.0",
-    "@aws-sdk/s3-request-presigner": "^3.0.0",
-    "@prisma/adapter-pg": "^7.0.0",
-    "@prisma/client": "^7.0.0",
-    "@supabase/ssr": "^0.10.2",
-    "bcryptjs": "^2.4.3",
-    "next": "^15.3.1",
+    "next": "15.3.1",
     "next-auth": "^4.24.0",
-    "pg": "^8.11.0",
     "react": "^19",
     "react-dom": "^19"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.0",
     "@types/node": "^20",
-    "@types/pg": "^8.11.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "autoprefixer": "^10",
-    "dotenv": "^16.4.0",
     "eslint": "^9",
     "eslint-config-next": "^15.3.1",
     "postcss": "^8",
-    "prisma": "^7.0.0",
-    "tailwindcss": "^3.4.0",
->>>>>>> 37db0d3 (chore: add @supabase/ssr for middleware)
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }
