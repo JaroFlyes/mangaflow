@@ -1,4 +1,5 @@
 export type MangaStatus = 'ongoing' | 'completed' | 'hiatus';
+export type UserRole = 'user' | 'admin';
 
 export interface Manga {
   id: string;
@@ -44,6 +45,15 @@ export interface Favorite {
   created_at: string;
 }
 
+export interface Profile {
+  id: string;
+  username: string | null;
+  avatar_url: string | null;
+  role: UserRole;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface MangaWithLastChapter extends Manga {
   last_chapter?: Chapter | null;
 }
@@ -84,6 +94,12 @@ export type Database = {
         Row: Favorite;
         Insert: Omit<Favorite, 'id' | 'created_at'> & { id?: string; created_at?: string };
         Update: Partial<Omit<Favorite, 'id'>>;
+        Relationships: [];
+      };
+      profiles: {
+        Row: Profile;
+        Insert: Omit<Profile, 'created_at' | 'updated_at'> & { created_at?: string; updated_at?: string };
+        Update: Partial<Omit<Profile, 'id'>>;
         Relationships: [];
       };
     };
