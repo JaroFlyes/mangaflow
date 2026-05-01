@@ -17,10 +17,21 @@ export async function fetchMangas(limit = 24): Promise<MangaWithLastChapter[]> {
       const last = rawChapters
         .slice()
         .sort((a, b) => b.number - a.number)[0] ?? null;
-      const { chapters: _omit, ...manga } = m as unknown as Manga & {
+      const manga = m as unknown as Manga & {
         chapters?: Chapter[];
       };
-      return { ...manga, last_chapter: last };
+      return {
+        id: manga.id,
+        slug: manga.slug,
+        title: manga.title,
+        description: manga.description,
+        cover_url: manga.cover_url,
+        status: manga.status,
+        genres: manga.genres ?? [],
+        author: manga.author,
+        created_at: manga.created_at,
+        last_chapter: last
+      };
     });
   } catch {
     return mockMangasWithChapters();

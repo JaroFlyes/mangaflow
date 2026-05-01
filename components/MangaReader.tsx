@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createBrowserSupabase, isSupabaseConfigured } from '@/lib/supabase';
-import type { Chapter, Manga, Page } from '@/types';
+import type { Chapter, Manga, Page, ReadingHistory } from '@/types';
 
 type ReaderMode = 'vertical' | 'paged';
 
@@ -48,14 +48,15 @@ export default function MangaReader({
       if (now - lastSavedRef.current < 4000) return;
       lastSavedRef.current = now;
       const supabase = createBrowserSupabase();
+      const payload: Omit<ReadingHistory, 'id' | 'updated_at'> = {
+        user_id: userId,
+        manga_id: manga.id,
+        chapter_id: chapter.id,
+        page_number: currentPage,
+        progress: Math.round(pct)
+      };
       await supabase.from('reading_history').upsert(
-        {
-          user_id: userId,
-          manga_id: manga.id,
-          chapter_id: chapter.id,
-          page_number: currentPage,
-          progress: Math.round(pct)
-        },
+        payload as never,
         { onConflict: 'user_id,manga_id' }
       );
     },

@@ -1,47 +1,51 @@
-import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navbar from '@/components/Navbar';
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import Navbar from "@/components/Navbar";
+import "./globals.css";
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap'
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mangaflow.vercel.app"),
   title: {
-    default: 'MangaFlow — Leia mangás online',
-    template: '%s · MangaFlow'
+    default: "MangaFlow — leitura de mangás",
+    template: "%s | MangaFlow"
   },
   description:
-    'MangaFlow é uma plataforma para leitura de mangás online: catálogo curado, leitor responsivo e histórico de progresso.',
-  metadataBase: new URL('https://mangaflow.vercel.app'),
+    "MangaFlow é uma plataforma dark mode para descobrir, favoritar e ler mangás online.",
   openGraph: {
-    title: 'MangaFlow',
-    description: 'Leia mangás online em qualidade.',
-    siteName: 'MangaFlow',
-    type: 'website'
+    title: "MangaFlow",
+    description: "Plataforma de leitura de mangás com Supabase Auth e leitor responsivo.",
+    type: "website"
   }
 };
 
-export const viewport: Viewport = {
-  themeColor: '#0d0d0f'
-};
-
 export default function RootLayout({
-  children
-}: {
+  children,
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="pt-BR" className={`dark ${inter.variable}`}>
-      <body className="min-h-screen bg-background text-white antialiased font-sans">
+    <html lang="pt-BR" className="dark">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <a href="#conteudo" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-background">
+          Pular para o conteúdo
+        </a>
         <Navbar />
-        <main className="pt-16">{children}</main>
-        <footer className="mt-24 border-t border-border py-8 text-center text-xs text-muted">
-          <p>© {new Date().getFullYear()} MangaFlow. Feito com Next.js + Supabase.</p>
-        </footer>
+        <main id="conteudo" className="min-h-screen pt-16">
+          {children}
+        </main>
       </body>
     </html>
   );
