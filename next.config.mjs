@@ -2,13 +2,11 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-  },
-  // next.config.ts nao e suportado no Next.js 14 - usar .mjs
-}
+      { protocol: 'https', hostname: 'picsum.photos' },
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: 'images.unsplash.com' }
+    ]
+  }
+};
 
-export default nextConfig
+export default nextConfig;
