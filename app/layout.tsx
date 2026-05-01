@@ -1,27 +1,48 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import '../src/styles/globals.css'
-import { SessionProvider } from '@/components/providers/SessionProvider'
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/Navbar';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap'
+});
 
 export const metadata: Metadata = {
-  title: 'MangaFlow — Leia seus mangás favoritos',
-  description: 'Plataforma moderna de leitura de mangás com catálogo, histórico e favoritos.',
-}
+  title: {
+    default: 'MangaFlow — Leia mangás online',
+    template: '%s · MangaFlow'
+  },
+  description:
+    'MangaFlow é uma plataforma para leitura de mangás online: catálogo curado, leitor responsivo e histórico de progresso.',
+  metadataBase: new URL('https://mangaflow.vercel.app'),
+  openGraph: {
+    title: 'MangaFlow',
+    description: 'Leia mangás online em qualidade.',
+    siteName: 'MangaFlow',
+    type: 'website'
+  }
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0d0d0f'
+};
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className="dark">
-      <body className={`${inter.className} bg-background text-white`}>
-        <SessionProvider>
-          {children}
-        </SessionProvider>
+    <html lang="pt-BR" className={`dark ${inter.variable}`}>
+      <body className="min-h-screen bg-background text-white antialiased font-sans">
+        <Navbar />
+        <main className="pt-16">{children}</main>
+        <footer className="mt-24 border-t border-border py-8 text-center text-xs text-muted">
+          <p>© {new Date().getFullYear()} MangaFlow. Feito com Next.js + Supabase.</p>
+        </footer>
       </body>
     </html>
-  )
+  );
 }

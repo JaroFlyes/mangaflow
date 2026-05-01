@@ -1,97 +1,80 @@
-# 🔖 MangaFlow
+# MangaFlow
 
-Plataforma web moderna para leitura de mangás. Catálogo, leitor fluido, favoritos, histórico e painel admin.
+Plataforma web para leitura de mangás online — Next.js 14 (App Router) + Tailwind CSS + TypeScript + Supabase (Auth, DB, Storage). Pronta para deploy na Vercel.
 
-## 🚀 Stack (MVP)
+## Stack
 
-- **Frontend/Backend:** Next.js 14 (App Router) + TypeScript
-- **Estilização:** Tailwind CSS
-- **Autenticação:** NextAuth.js (e-mail/senha)
-- **Banco de dados:** PostgreSQL + Prisma ORM
-- **Armazenamento de imagens:** S3 compatível (AWS S3 / Supabase Storage / Wasabi)
-- **Deploy:** Vercel (front + API) + Railway ou Supabase (banco)
+- **Next.js 14** — App Router, Server Components, Image Optimization
+- **TypeScript** — strict mode
+- **Tailwind CSS** — dark mode first, paleta `#0d0d0f` + accent `#e05c2a`
+- **Supabase** — Postgres + Row Level Security + Auth + Storage
+- **Vercel** — deploy
 
-## 📦 Funcionalidades do MVP
-
-- [ ] Catálogo de mangás com busca por nome
-- [ ] Página de detalhes da obra
-- [ ] Lista de capítulos por obra
-- [ ] Leitor de páginas (vertical scroll / horizontal clique)
-- [ ] Cadastro e login de usuários
-- [ ] Favoritos / Biblioteca pessoal
-- [ ] Histórico de leitura (último capítulo/página)
-- [ ] Painel admin (CRUD obras, capítulos, upload de páginas)
-- [ ] SEO básico (URLs amigáveis, meta tags)
-
-## 🗂️ Estrutura de Pastas
+## Estrutura
 
 ```
-mangaflow/
-├── app/
-│   ├── page.tsx                  # Home / catálogo
-│   ├── mangas/
-│   │   ├── page.tsx              # Lista de mangás
-│   │   └── [slug]/
-│   │       ├── page.tsx          # Detalhes da obra
-│   │       └── capitulo/
-│   │           └── [chapterNumber]/
-│   │               └── page.tsx  # Leitor
-│   ├── login/
-│   │   └── page.tsx
-│   ├── registro/
-│   │   └── page.tsx
-│   ├── biblioteca/
-│   │   └── page.tsx              # Favoritos do usuário
-│   └── admin/
-│       ├── layout.tsx
-│       ├── mangas/
-│       │   └── page.tsx
-│       └── capitulos/
-│           └── page.tsx
-├── src/
-│   ├── components/
-│   │   ├── Layout.tsx
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   │   ├── MangaCard.tsx
-│   │   ├── ChapterList.tsx
-│   │   └── ReaderControls.tsx
-│   └── lib/
-│       ├── prisma.ts
-│       └── auth.ts
-├── prisma/
-│   └── schema.prisma
-├── public/
-├── .env.example
-├── .gitignore
-├── next.config.ts
-├── tailwind.config.ts
-├── tsconfig.json
-└── package.json
+app/
+  layout.tsx
+  page.tsx                 # home com hero + continuar lendo + grid
+  catalogo/page.tsx        # catálogo completo
+  manga/[slug]/page.tsx    # detalhes + lista de capítulos
+  manga/[slug]/capitulo/[number]/page.tsx  # leitor
+  auth/page.tsx            # login / cadastro
+components/
+  Navbar.tsx               # glassmorphism, fixa
+  HeroSlider.tsx           # autoplay 5s, dots, swipe
+  MangaCard.tsx            # card reutilizável
+  MangaReader.tsx          # vertical / página a página + progresso
+  ContinueReading.tsx      # carrossel "continuar lendo"
+lib/
+  supabase.ts              # clientes browser/server tipados
+  data.ts                  # leitura tipada com fallback mock
+  mock-data.ts             # dados de fallback quando o DB está vazio
+types/index.ts             # Manga, Chapter, Page, ReadingHistory, Favorite, Database
+supabase/
+  schema.sql
+  migrations/001_initial_schema.sql
 ```
 
-## 🛣️ Próximos Passos
+## Setup local
 
-1. Inicializar projeto Next.js + TypeScript localmente
-2. Configurar Prisma + PostgreSQL e modelar o banco
-3. Implementar rotas públicas do catálogo
-4. Adicionar autenticação e favoritos
-5. Implementar painel admin e upload de imagens
+1. Instale dependências:
+   ```bash
+   npm install
+   ```
+2. Copie `.env.local.example` para `.env.local` e preencha as variáveis do Supabase.
+3. Rode em desenvolvimento:
+   ```bash
+   npm run dev
+   ```
 
-## 🧑‍💻 Como rodar localmente
+> Sem variáveis configuradas, o app exibe dados mock para que você possa navegar a UI imediatamente.
 
-```bash
-# Instalar dependências
-npm install
+## Banco de dados
 
-# Copiar variáveis de ambiente
-cp .env.example .env
+Aplique o schema em `supabase/migrations/001_initial_schema.sql`:
 
-# Rodar migrações do banco
-npx prisma migrate dev
+- pelo SQL Editor do Supabase, ou
+- via CLI: `supabase db push`
 
-# Iniciar servidor de desenvolvimento
-npm run dev
-```
+O schema cobre:
 
-Acesse [http://localhost:3000](http://localhost:3000)
+- Tabelas: `mangas`, `chapters`, `pages`, `reading_history`, `favorites`
+- Índices úteis e trigger `updated_at`
+- RLS: leitura pública para conteúdo; `reading_history` e `favorites` restritos ao próprio usuário
+- Bucket público `manga-assets` no Storage para capas e páginas
+
+## Variáveis de ambiente
+
+Veja `.env.local.example`.
+
+| Var | Descrição |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave anon pública |
+
+## Deploy na Vercel
+
+1. Importe o repositório na Vercel.
+2. Configure `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` em *Environment Variables*.
+3. Deploy.
